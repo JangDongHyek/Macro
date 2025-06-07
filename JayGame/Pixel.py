@@ -8,21 +8,25 @@ class Pixel:
     def __init__(self: 'Game'):
         pass
 
-    def getPixel(self: 'Game', position, image =None):
-        if(not image) :
-            image = self._frame
+    def getPixel(self: 'Game', position, image=None):
+        if image is None:
+            image = self._frame  # OpenCV 이미지 (NumPy 배열)
 
         x, y = position
 
-        if x < 0 or y < 0 or x >= image.width or y >= image.height:
+        # 높이, 너비 가져오기
+        height, width = image.shape[:2]
+
+        if x < 0 or y < 0 or x >= width or y >= height:
             raise ValueError("좌표가 이미지 범위를 벗어났습니다.")
 
-        pixel = image.getpixel((x, y))
-        return pixel  # (R, G, B)
+        # OpenCV는 BGR 순서
+        b, g, r = image[y, x]
+        return (r, g, b)  # (R, G, B)로 반환
 
     def pixelSearch(self: 'Game', target_rgb, pos,threshold = 0.85):
         image = self._frame
-        width, height = image.size
+        height, width = image.shape[:2]
 
         x1, y1, x2, y2 = pos
 

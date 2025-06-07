@@ -3,10 +3,18 @@ if TYPE_CHECKING:
     from .__init__ import Game
 import cv2
 import numpy as np
+import os
 
 class Image:
     def __init__(self: 'Game'):
         self._frame = None
+
+    def screenshot(self : "Game",name):
+        if self._frame is not None:
+            os.makedirs(os.path.dirname(name), exist_ok=True)
+            cv2.imwrite(name + ".jpg", self._frame)
+        else:
+            raise ValueError("프레임이 없습니다.")
 
     def imageSearch(self: 'Game', img_path, image=None, confidence=0.75):
         # 1. 템플릿 이미지 로드 (한글 경로 지원)
