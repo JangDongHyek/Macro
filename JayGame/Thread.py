@@ -5,6 +5,7 @@ import threading
 import keyboard
 import time
 from collections.abc import Callable
+import onnxruntime
 
 
 class Thread:
@@ -12,10 +13,24 @@ class Thread:
         self._threads = {}         # ID → Thread 객체
         self._flags = {}           # ID → 실행 플래그
 
-    def onnxSearch(self: 'Game',id,session,input_name):
-        if self._frame is not None :
+    def onnxSearch(self: 'Game',id):
+        if id not in self._onnx_session:
+            session = onnxruntime.InferenceSession(
+                f"JayGame/yolo/{id}.onnx",  # ← id 기반 경로
+                providers=['CUDAExecutionProvider', 'CPUExecutionProvider']
+            )
+            input_name = session.get_inputs()[0].name
+            self._onnx_session[id] = {
+                "session": session,
+                "input_name": input_name
+            }
+
+        if self._frame is not None:
             img = self.preprocess()
-            output = session.run(None, {input_name: img})
+            output = self._onnx_session[id]["session"].run(
+                None,
+                {self._onnx_session[id]["input_name"]: img}
+            )
             xy = self.postprocess(output)
             self._onnx[id] = xy
 

@@ -7,6 +7,7 @@ import numpy as np
 class Yolo:
     def __init__(self: 'Game'):
         self._onnx = {}
+        self._onnx_session = {}
 
     def preprocess(self: 'Game'):
         img = cv2.resize(self._frame, self._yolo_resize)  # 이미 ndarray

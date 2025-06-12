@@ -6,7 +6,7 @@ game.threadStart('mainKey',target=game.mainKey)
 while True:
     if game._status:
         game.cameraStart()
-
+        # game.threadStart("exam", target=game.onnxSearch, args=("exam",))
         while game._status :
             frame = game._camera.get_latest_frame()
 
