@@ -18,6 +18,8 @@ while True:
 
                 # logic start
 
+                # game.drawOnnx('monster')
+
                 # logic end
 
                 game.drawFrame(frame)

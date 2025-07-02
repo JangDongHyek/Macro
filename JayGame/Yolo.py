@@ -15,7 +15,7 @@ class Yolo:
         img = img.astype(np.float32) / 255.0
         return img[np.newaxis, :]
 
-    def postprocess(self: 'Game',output, conf_thres=0.25, allowed_classes=None):
+    def postprocess(self: 'Game',output, conf_thres=0.75, allowed_classes=None):
         preds = output[0]
         if len(preds.shape) == 3:
             preds = preds[0]

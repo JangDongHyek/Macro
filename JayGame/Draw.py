@@ -7,6 +7,7 @@ import cv2
 class Draw:
     def __init__(self: 'Game'):
         self._draw_dynamic = {}
+        self._draw_onnx_ids = {}
 
         self._draw_color_cache = {
             'red': (0, 0, 255),
